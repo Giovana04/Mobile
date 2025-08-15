@@ -36,6 +36,7 @@ void ex8(int n){
   int fatorial = 1;
   for (int i = 1; i <= n; i++) {
     fatorial *= i;
-    print('$i! = $fatorial');
+    print('$fatorial');
   }
+  print("\n\n");
 }
