@@ -72,4 +72,49 @@ void main(List<String> arguments) {
 
   // Variavel const tem que ter valor atribuído na declaração que não pode ser alterado depois
   // Variavel final pode ser atribuída depois, mas só uma vez, e não pode ser alterada depois
+
+  
 }
+
+//Orientado a Objeto
+
+//pode mais de uma class no mesmo arquivo (ex: class Aluno{}) e para chamar não precisa do new  
+//primeira coisa que vem no dart é o construtor
+class Aluno{
+  Aluno({required String nome, required String ra}){ //parenteses e chaves
+    this.nome = nome;
+    this.ra = ra;
+  }
+  
+  String? nome;
+  String? ra;
+}
+
+class Aluno2{
+  Aluno2({required this.nome, required this.ra}); //mais usado assim
+  String nome;
+  String ra;
+}
+
+class Aluno3{
+  Aluno3({required this.nome, required this.ra}); 
+  Aluno3.ativo({required this.nome, required this.ra}); //pode nomear os construtores
+  String nome;
+  String ra;
+}
+
+//Para fazer privado usa "_" ex:bool? _ativo;
+//"late" para declarar variavel faz o mesmo que "?"
+class Aluno4{
+  Aluno4({required this.nome, required this.ra}); 
+  String nome;
+  String ra;
+  bool? _ativo;
+  late bool valido;
+}
+
+//Existe herança no dart, funciona igual o de java
+//Existe @override -> sobrescrita de método
+//Pode usar o super.metodo() para usar um metodo ou escrevr um metodo na super classe, assim como  usar o construtor da superclasse
+//transforma objetos com "as"
+//Não existe interface, mas dá para usar uma classe abstrata (classe que voce não pode instanciar a classe)
