@@ -1,34 +1,91 @@
 import 'package:flutter/material.dart';
 
-class HomePage2 extends StatelessWidget {
-  const HomePage2({super.key});
+class HomePage2 extends StatefulWidget {
+  HomePage2({super.key});
+
+  @override
+  State<HomePage2> createState() => _HomePage2State();
+}
+
+class _HomePage2State extends State<HomePage2> {
+  int count = 0;
+
+  bool get isEmpty => count == 0;
+  bool get isFull => count == 11;
 
   void decrement() {
-    print("Decrementou");
+    setState(() {
+      count--;
+    });
   }
 
   void increment() {
-    print("incrementou");
+    setState(() {
+      count++;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors
-          .amber, //scaffold ja vem com appbar, body e floatingActionButton
-      appBar: AppBar(backgroundColor: Colors.blue),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Cotrolador de times",
-            style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+      backgroundColor: Colors.green,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/imgs/images.jpg'),
+            fit: BoxFit.cover,
           ),
-        ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Controlador de Times',
+              style: TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 25),
+            Text(count.toString(), style: TextStyle(fontSize: 70, color: Colors.white)),
+            SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: isEmpty ? null : decrement,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    fixedSize: Size(100, 100),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text(
+                    'Saiu',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 25),
+                TextButton(
+                  onPressed: isFull ? null : increment,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    fixedSize: Size(100, 100),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text(
+                    'Entrou',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

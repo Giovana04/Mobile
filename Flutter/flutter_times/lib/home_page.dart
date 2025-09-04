@@ -7,9 +7,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Container(
-        color: const Color.fromARGB(255, 14, 211, 17),
+        color: Colors.blue,
         alignment: Alignment.center,
-        child: Text("Hello Word!"),
+        child: Text('Hello World'),
       ),
     );
   }
