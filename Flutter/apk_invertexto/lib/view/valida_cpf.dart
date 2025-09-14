@@ -1,15 +1,15 @@
 import 'package:apk_invertexto/service/InvertextoService.dart';
 import 'package:flutter/material.dart';
 
-class PorExtensoPage extends StatefulWidget {
-  const PorExtensoPage({super.key});
+class ValidaCpfPage extends StatefulWidget {
+  const ValidaCpfPage({super.key});
 
   @override
-  State<PorExtensoPage> createState() => _PorExtensoPageState();
+  State<ValidaCpfPage> createState() => _ValidaCpfPageState();
 }
 
-class _PorExtensoPageState extends State<PorExtensoPage> {
-  String? campo, tipo;
+class _ValidaCpfPageState extends State<ValidaCpfPage> {
+  String? campo;
   String? resultado;
   final apiService = Invertextoservice();
   @override
@@ -46,7 +46,7 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
             TextField(
               decoration: InputDecoration(
                 //Não costuma deixar botão
-                labelText: "Digite um número: ",
+                labelText: "Digite um CPF: ",
                 labelStyle: TextStyle(color: Colors.white),
                 border: OutlineInputBorder(),
               ),
@@ -58,40 +58,9 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
                 });
               },
             ),
-            DropdownButtonFormField<String>(
-              value: tipo,
-              onChanged: (String? novoValor) {
-                setState(() {
-                  tipo = novoValor!;
-                });
-              },
-              items: <String>['BRL', 'USD', 'EUR', '']
-                  .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      ),
-                    );
-                  })
-                  .toList(),
-              decoration: InputDecoration(
-                labelText: 'Selecione o tipo da moeda',
-                labelStyle: TextStyle(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                ),
-                border: OutlineInputBorder(),
-              ),
-              style: TextStyle(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                fontSize: 18,
-              ),
-            ),
             Expanded(
-              // OK ele funciona se colocar o tipo e depois o campo (pq???)
               child: FutureBuilder(
-                future: apiService.convertePorExtenso(campo, tipo), //alvo
+                future: apiService.validaCPF(campo), //alvo
                 builder: (context, snapshot) {
                   //não entendi Perguntar
                   switch (snapshot.connectionState) {
@@ -143,10 +112,16 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
   }
 
   Widget exibeResultado(BuildContext context, AsyncSnapshot snapshot) {
+    String cpfCompleto = '';
+    bool? valido;
+    if (snapshot.data != null) {
+      valido = snapshot.data["valid"];
+      cpfCompleto += snapshot.data["formatted"] ?? "Não existe";
+    }
     return Padding(
       padding: EdgeInsets.only(top: 10),
       child: Text(
-        snapshot.data["text"] ?? '',
+        'Formatado: $cpfCompleto\nValido: ${valido ?? "Indeterminado"}',
         style: TextStyle(color: Colors.white, fontSize: 18),
       ),
     );

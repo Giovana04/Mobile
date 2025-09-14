@@ -1,5 +1,6 @@
 import 'package:apk_invertexto/view/busca_cep.dart';
 import 'package:apk_invertexto/view/por_extenso.dart';
+import 'package:apk_invertexto/view/valida_cpf.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -50,6 +51,20 @@ class HomePage extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>BuscaCepPage()));
+              },
+            ),
+            GestureDetector(
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.edit, color: const Color.fromARGB(255, 250, 244, 227)),
+                  Text(
+                    "Validar CPF",
+                    style: TextStyle(color: const Color.fromARGB(255, 248, 242, 223), fontSize: 30),
+                  ),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ValidaCpfPage()));
               },
             ),
           ],
