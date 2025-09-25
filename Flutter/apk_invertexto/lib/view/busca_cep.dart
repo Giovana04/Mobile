@@ -93,6 +93,7 @@ class _BuscaCepPageState extends State<BuscaCepPage> {
                                 'Erro: ${snapshot.error}',
                                 style: const TextStyle(
                                   color: Colors.redAccent,
+                                  
                                   fontSize: 16,
                                 ),
                               ),

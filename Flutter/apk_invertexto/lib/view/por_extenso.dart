@@ -43,7 +43,7 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            TextField(
+            TextFormField(
               decoration: InputDecoration(
                 //Não costuma deixar botão
                 labelText: "Digite um número: ",
@@ -52,12 +52,11 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
               ),
               keyboardType: TextInputType.number,
               style: TextStyle(color: Colors.white, fontSize: 18),
-              onSubmitted: (value) {
-                setState(() {
-                  campo = value;
-                });
+              onChanged: (value) {
+                campo = value;
               },
             ),
+            
             DropdownButtonFormField<String>(
               value: tipo,
               onChanged: (String? novoValor) {
@@ -74,6 +73,7 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     );
+                    
                   })
                   .toList(),
               decoration: InputDecoration(
@@ -88,6 +88,25 @@ class _PorExtensoPageState extends State<PorExtensoPage> {
                 fontSize: 18,
               ),
             ),
+
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Enviando"),
+                  behavior: SnackBarBehavior.floating,
+                  margin: EdgeInsets.only(
+                    top: 0,
+                    bottom: 0,
+                    left: 16,
+                    right: 16,
+                    ),
+                  ),
+                );
+              },
+              child: Text("Enviar"),
+            ),
+            
             Expanded(
               // OK ele funciona se colocar o tipo e depois o campo (pq???)
               child: FutureBuilder(
