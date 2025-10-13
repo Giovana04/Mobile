@@ -13,6 +13,7 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //  
   Contact? _editContact;
   bool _userEdited = false;
   final _nameControler = TextEditingController();
@@ -53,7 +54,10 @@ class _ContactPageState extends State<ContactPage> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10.0),
-        child: Column(
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
           children: <Widget>[
             GestureDetector(
               onTap: () => _selectImage(),
@@ -83,30 +87,42 @@ class _ContactPageState extends State<ContactPage> {
                 });
               },
             ),
-            TextField(
+            TextFormField(
               controller: _emailControler,
               decoration: InputDecoration(labelText: "Email"),
               onChanged: (email) {
                 _userEdited = true;
-                setState(() {
-                  _editContact?.email = email;
-                });
+                _editContact?.email = email;
               },
               keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value != null && value.isNotEmpty && !value.contains('@')) {
+                  return 'Insira um e-mail válido.';
+                }
+                return null;
+              },
             ),
-            TextField(
+            TextFormField(
               controller: _phoneControler,
               decoration: InputDecoration(labelText: "Telefone"),
               onChanged: (phone) {
                 _userEdited = true;
-                setState(() {
-                  _editContact?.phone = phone;
-                });
+                _editContact?.phone = phone;
               },
               keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "O telefone é obrigatório.";
+                }
+                final soNumero = value.replaceAll(RegExp(r'[^\d]'), '');//remove o que nãp for digito
+                if (soNumero.length < 10) {
+                  return 'Telefone inválido. Mínimo de 10 dígitos com DDD.';
+                }
+                return null;
+              },
             ),
           ],
-        ),
+        ),)
       ),
     );
   }
@@ -121,11 +137,14 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   void _saveContact() {
-    String name = _nameControler.text.trim();
-    String email = _emailControler.text.trim();
-    String phone = _phoneControler.text.trim();
-
-    
+    // CHAME A VALIDAÇÃO DO FORM ANTES DE SALVAR
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      // Se inválido, não salva
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Corrija os erros do formulário antes de salvar.")),
+      );
+      return;
+    }
 
     if (_editContact?.img == "") {
       _editContact!.img = null;
