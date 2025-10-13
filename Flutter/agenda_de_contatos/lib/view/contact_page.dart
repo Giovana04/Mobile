@@ -13,7 +13,7 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //  
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //
   Contact? _editContact;
   bool _userEdited = false;
   final _nameControler = TextEditingController();
@@ -58,71 +58,78 @@ class _ContactPageState extends State<ContactPage> {
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => _selectImage(),
-              child: Container(
-                width: 140.0,
-                height: 140.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image:
-                        _editContact?.img != null &&
-                            _editContact!.img!.isNotEmpty
-                        ? FileImage(File(_editContact!.img!))
-                        : AssetImage("assets/imgs/image.png") as ImageProvider,
-                    fit: BoxFit.cover,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => _selectImage(),
+                child: Container(
+                  width: 140.0,
+                  height: 140.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image:
+                          _editContact?.img != null &&
+                              _editContact!.img!.isNotEmpty
+                          ? FileImage(File(_editContact!.img!))
+                          : AssetImage("assets/imgs/image.png")
+                                as ImageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-            ),
-            TextField(
-              controller: _nameControler,
-              decoration: InputDecoration(labelText: "Nome"),
-              onChanged: (text) {
-                _userEdited = true;
-                setState(() {
-                  _editContact?.name = text;
-                });
-              },
-            ),
-            TextFormField(
-              controller: _emailControler,
-              decoration: InputDecoration(labelText: "Email"),
-              onChanged: (email) {
-                _userEdited = true;
-                _editContact?.email = email;
-              },
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value != null && value.isNotEmpty && !value.contains('@')) {
-                  return 'Insira um e-mail válido.';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _phoneControler,
-              decoration: InputDecoration(labelText: "Telefone"),
-              onChanged: (phone) {
-                _userEdited = true;
-                _editContact?.phone = phone;
-              },
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return "O telefone é obrigatório.";
-                }
-                final soNumero = value.replaceAll(RegExp(r'[^\d]'), '');//remove o que nãp for digito
-                if (soNumero.length < 10) {
-                  return 'Telefone inválido. Mínimo de 10 dígitos com DDD.';
-                }
-                return null;
-              },
-            ),
-          ],
-        ),)
+              TextField(
+                controller: _nameControler,
+                decoration: InputDecoration(labelText: "Nome"),
+                onChanged: (text) {
+                  _userEdited = true;
+                  setState(() {
+                    _editContact?.name = text;
+                  });
+                },
+              ),
+              TextFormField(
+                controller: _emailControler,
+                decoration: InputDecoration(labelText: "Email"),
+                onChanged: (email) {
+                  _userEdited = true;
+                  _editContact?.email = email;
+                },
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value != null &&
+                      value.isNotEmpty &&
+                      !value.contains('@')) {
+                    return 'Insira um e-mail válido.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _phoneControler,
+                decoration: InputDecoration(labelText: "Telefone"),
+                onChanged: (phone) {
+                  _userEdited = true;
+                  _editContact?.phone = phone;
+                },
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "O telefone é obrigatório.";
+                  }
+                  final soNumero = value.replaceAll(
+                    RegExp(r'[^\d]'),
+                    '',
+                  ); //remove o que nãp for digito
+                  if (soNumero.length < 10) {
+                    return 'Telefone inválido. Mínimo de 10 dígitos com DDD.';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -141,7 +148,9 @@ class _ContactPageState extends State<ContactPage> {
     if (!(_formKey.currentState?.validate() ?? false)) {
       // Se inválido, não salva
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Corrija os erros do formulário antes de salvar.")),
+        SnackBar(
+          content: Text("Corrija os erros do formulário antes de salvar."),
+        ),
       );
       return;
     }
